@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>There's a B2B SaaS for that.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --surface: #141416;
+    --surface-hover: #1B1B1E;
+    --border: #26262A;
+    --border-strong: #38383D;
+    --text-primary: #F2F1EC;
+    --text-secondary: #9B9A96;
+    --text-muted: #5E5D5A;
+    --accent: #E8442E;
+    --accent-dim: #3A1D16;
+    --verified: #5FD68A;
+    --verified-dim: #16241C;
+    --satirical: #B39DDB;
+    --satirical-dim: #221F2C;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    padding: 0 24px 80px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48px 0 8px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--accent); }
+
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+  .toggle-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; inset: 0;
+    background: var(--border-strong);
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+  .slider::before {
+    content: "";
+    position: absolute;
+    height: 16px; width: 16px;
+    left: 3px; top: 3px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+  input:checked + .slider { background: var(--accent); }
+  input:checked + .slider::before { transform: translateX(18px); background: #fff; }
+
+  .tagline {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 4px 0 40px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .search-box {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.15s ease;
+  }
+  .search-box:focus-within { border-color: var(--border-strong); }
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 15px 16px;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-icon {
+    color: var(--text-muted);
+    padding-right: 14px;
+    display: flex;
+  }
+  .dice-btn {
+    width: 54px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .dice-btn:hover { border-color: var(--accent); }
+  .dice-btn:active { transform: scale(0.94); }
+  .dice-btn.rolling svg { animation: spin 0.5s ease; }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .hint-row {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .result-zone { margin-top: 36px; min-height: 40px; }
+
+  .empty-hint {
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    padding: 60px 20px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    animation: rise 0.3s ease;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .problem-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .problem-text {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+
+  .comp-count-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .comp-count {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+  }
+  .saturation {
+    display: flex;
+    gap: 3px;
+  }
+  .sat-block {
+    width: 8px; height: 14px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+  .sat-block.filled { background: var(--accent); }
+
+  .competitor {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  .competitor:first-of-type { border-top: 1px solid var(--border); }
+  .comp-left { flex: 1; min-width: 0; }
+  .comp-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+  .comp-name {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .badge {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    padding: 2px 7px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .badge.verified { background: var(--verified-dim); color: var(--verified); }
+  .badge.satirical { background: var(--satirical-dim); color: var(--satirical); }
+  .comp-desc {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .comp-link {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .comp-link:hover { border-color: var(--accent); color: var(--text-primary); }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .verdict {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: normal;
+  }
+  .share-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .share-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+
+  .disclaimer {
+    margin-top: 64px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">There's a <span>B2B SaaS</span> for that.</div>
+    <div class="toggle-wrap">
+      <span class="toggle-label">include satire</span>
+      <label class="switch">
+        <input type="checkbox" id="satireToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <p class="tagline">Type a problem. Any problem. We'll tell you if someone's already raised a seed round to solve it.</p>
+
+  <div class="search-row">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="try: coffee machine, fish in microwave, zoom background...">
+      <span class="search-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+    </div>
+    <button class="dice-btn" id="diceBtn" aria-label="Roll a random problem">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="3" y="3" width="18" height="18" rx="4"/>
+        <circle cx="8" cy="8" r="1.2" fill="currentColor"/>
+        <circle cx="16" cy="8" r="1.2" fill="currentColor"/>
+        <circle cx="8" cy="16" r="1.2" fill="currentColor"/>
+        <circle cx="16" cy="16" r="1.2" fill="currentColor"/>
+        <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+  <div class="hint-row">press the dice for a random problem, or search your own</div>
+
+  <div class="result-zone" id="resultZone">
+    <div class="empty-hint">roll the dice or search above — your result shows up here</div>
+  </div>
+
+  <div class="disclaimer">
+    disclaimer: some results are real companies, some are jokes, all one-liners are editorialized for comedic effect and not official taglines. don't take offense, don't raise a seed round based on this website, and don't sue us. we're a comedy bit that occasionally tells the truth.
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+  {
+    problem: "Managing which conference room someone's secretly napping in",
+    keywords: ["conference room", "napping", "meeting room", "sleep", "office"],
+    competitors: [
+      { name: "Robin", desc: "Books your desk and quietly wonders why 'Room B' is always occupied 45 minutes past the meeting.", url: "https://robinpowered.com", real: true }
+    ]
+  },
+  {
+    problem: "Making sure your Slack messages don't sound unhinged before 9am",
+    keywords: ["slack", "messages", "tone", "email", "communication", "unhinged"],
+    competitors: [
+      { name: "Grammarly Business", desc: "Corporate-grade proofreading, because 'per my last email' has layers.", url: "https://grammarly.com", real: true }
+    ]
+  },
+  {
+    problem: "Tracking who keeps forgetting to update the shared spreadsheet",
+    keywords: ["spreadsheet", "shared doc", "tracking", "excel", "update"],
+    competitors: [
+      { name: "Smartsheet", desc: "Spreadsheets, but with enough automation to almost forgive you for still using spreadsheets.", url: "https://smartsheet.com", real: true }
+    ]
+  },
+  {
+    problem: "Knowing exactly which vendor invoice is overdue without asking finance",
+    keywords: ["invoice", "vendor", "finance", "billing", "overdue", "payment"],
+    competitors: [
+      { name: "Bill.com", desc: "Turns 'did we pay that?' into a dashboard instead of a Slack thread.", url: "https://bill.com", real: true }
+    ]
+  },
+  {
+    problem: "Notifying your team the office coffee machine broke",
+    keywords: ["coffee", "machine", "office", "kitchen", "broke", "espresso"],
+    competitors: [
+      { name: "BrewAlert", desc: "Enterprise-grade grief counseling for your Nespresso pod supply.", url: null, real: false }
+    ]
+  },
+  {
+    problem: "Detecting who microwaved fish in the break room",
+    keywords: ["fish", "microwave", "smell", "break room", "kitchen", "odor"],
+    competitors: [
+      { name: "OdorOps", desc: "AI-powered scent attribution. SOC 2 compliant. Nobody asked for this.", url: null, real: false }
+    ]
+  },
+  {
+    problem: "Optimizing which Zoom background makes you look busiest",
+    keywords: ["zoom", "background", "video call", "meeting", "virtual"],
+    competitors: [
+      { name: "BackgroundIQ", desc: "Machine-learned professionalism, one blurred bookshelf at a time.", url: null, real: false }
+    ]
+  },
+  {
+    problem: "Scheduling exactly when to leave a meeting to seem important",
+    keywords: ["meeting", "schedule", "leave early", "calendar", "busy"],
+    competitors: [
+      { name: "ExitSync", desc: "Calendar intelligence for strategic disappearances.", url: null, real: false }
+    ]
+  }
+];
+
+const searchInput = document.getElementById('searchInput');
+const diceBtn = document.getElementById('diceBtn');
+const resultZone = document.getElementById('resultZone');
+const satireToggle = document.getElementById('satireToggle');
+
+function includeSatire() { return satireToggle.checked; }
+
+function pickRandom() {
+  const pool = includeSatire() ? DATA : DATA.filter(d => d.competitors.some(c => c.real));
+  const entry = pool[Math.floor(Math.random() * pool.length)];
+  renderEntry(entry);
+}
+
+function searchFor(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    resultZone.innerHTML = '<div class="empty-hint">roll the dice or search above — your result shows up here</div>';
+    return;
+  }
+  const pool = includeSatire() ? DATA : DATA.filter(d => d.competitors.some(c => c.real));
+  const match = pool.find(d =>
+    d.problem.toLowerCase().includes(q) ||
+    d.keywords.some(k => k.includes(q) || q.includes(k))
+  );
+  if (match) {
+    renderEntry(match);
+  } else {
+    resultZone.innerHTML = `
+      <div class="problem-card">
+        <div class="problem-label">your problem</div>
+        <div class="problem-text">"${escapeHtml(query)}"</div>
+        <div class="empty-hint" style="padding:32px 16px;">
+          no B2B SaaS for that yet 👀<br><span style="font-size:12px;">(that might mean you have a billion dollar idea, or nobody's that bored. flip a coin.)</span>
+        </div>
+      </div>`;
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function verdictFor(count) {
+  if (count === 0) return "clean slate — go build it";
+  if (count === 1) return "someone already did this";
+  if (count === 2) return "a quiet little rivalry";
+  return "fully saturated, good luck";
+}
+
+function renderEntry(entry) {
+  const visibleComps = includeSatire() ? entry.competitors : entry.competitors.filter(c => c.real);
+  const count = visibleComps.length;
+  const satBlocks = Array.from({length: 5}, (_, i) =>
+    `<div class="sat-block ${i < Math.min(count, 5) ? 'filled' : ''}"></div>`
+  ).join('');
+
+  const compsHtml = visibleComps.map(c => `
+    <div class="competitor">
+      <div class="comp-left">
+        <div class="comp-name-row">
+          <span class="comp-name">${escapeHtml(c.name)}</span>
+          <span class="badge ${c.real ? 'verified' : 'satirical'}">${c.real ? 'verified' : 'satirical'}</span>
+        </div>
+        <div class="comp-desc">${escapeHtml(c.desc)}</div>
+      </div>
+      ${c.url
+        ? `<a class="comp-link" href="${c.url}" target="_blank" rel="noopener">visit ↗</a>`
+        : `<a class="comp-link" href="https://www.google.com/search?q=${encodeURIComponent(c.name)}" target="_blank" rel="noopener">search ↗</a>`
+      }
+    </div>
+  `).join('');
+
+  resultZone.innerHTML = `
+    <div class="problem-card">
+      <div class="problem-label">your problem</div>
+      <div class="problem-text">"${escapeHtml(entry.problem)}"</div>
+      <div class="comp-count-row">
+        <span class="comp-count">${count} business${count === 1 ? '' : 'es'} found</span>
+        <div class="saturation">${satBlocks}</div>
+      </div>
+      ${compsHtml || '<div class="empty-hint" style="padding:24px;">nothing verified yet — try including satire</div>'}
+      <div class="card-footer">
+        <span class="verdict">verdict: ${verdictFor(count)}</span>
+        <button class="share-btn" id="shareBtn">copy link</button>
+      </div>
+    </div>
+  `;
+
+  const shareBtn = document.getElementById('shareBtn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      const slug = entry.problem.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+      navigator.clipboard.writeText(`theresab2bsaasforthat.com/r/${slug}`).catch(() => {});
+      shareBtn.textContent = 'copied ✓';
+      setTimeout(() => { shareBtn.textContent = 'copy link'; }, 1500);
+    });
+  }
+}
+
+diceBtn.addEventListener('click', () => {
+  diceBtn.classList.add('rolling');
+  searchInput.value = '';
+  setTimeout(() => {
+    diceBtn.classList.remove('rolling');
+    pickRandom();
+  }, 350);
+});
+
+searchInput.addEventListener('input', (e) => {
+  searchFor(e.target.value);
+});
+
+satireToggle.addEventListener('change', () => {
+  if (searchInput.value.trim()) {
+    searchFor(searchInput.value);
+  }
+});
+</script>
+</body>
+</html>
