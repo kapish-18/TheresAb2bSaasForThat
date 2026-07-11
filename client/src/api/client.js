@@ -23,3 +23,16 @@ export async function getProblemBySlug(slug) {
   const data = await res.json();
   return data.problem;
 }
+
+export async function submitSuggestion(payload) {
+  const res = await fetch(`${API_BASE}/submissions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Submission failed');
+  }
+  return data;
+}

@@ -2,7 +2,13 @@
   {
     "text": "Managing which conference room someone's secretly napping in",
     "slug": "conference-room-napping",
-    "keywords": ["conference room", "napping", "meeting room", "sleep", "office"],
+    "keywords": [
+      "conference room",
+      "napping",
+      "meeting room",
+      "sleep",
+      "office"
+    ],
     "competitors": [
       {
         "name": "Robin",
@@ -15,7 +21,14 @@
   {
     "text": "Making sure your Slack messages don't sound unhinged before 9am",
     "slug": "slack-messages-unhinged",
-    "keywords": ["slack", "messages", "tone", "email", "communication", "unhinged"],
+    "keywords": [
+      "slack",
+      "messages",
+      "tone",
+      "email",
+      "communication",
+      "unhinged"
+    ],
     "competitors": [
       {
         "name": "Grammarly Business",
@@ -28,7 +41,13 @@
   {
     "text": "Tracking who keeps forgetting to update the shared spreadsheet",
     "slug": "shared-spreadsheet-tracking",
-    "keywords": ["spreadsheet", "shared doc", "tracking", "excel", "update"],
+    "keywords": [
+      "spreadsheet",
+      "shared doc",
+      "tracking",
+      "excel",
+      "update"
+    ],
     "competitors": [
       {
         "name": "Smartsheet",
@@ -41,7 +60,14 @@
   {
     "text": "Knowing exactly which vendor invoice is overdue without asking finance",
     "slug": "vendor-invoice-overdue",
-    "keywords": ["invoice", "vendor", "finance", "billing", "overdue", "payment"],
+    "keywords": [
+      "invoice",
+      "vendor",
+      "finance",
+      "billing",
+      "overdue",
+      "payment"
+    ],
     "competitors": [
       {
         "name": "Bill.com",
@@ -54,7 +80,14 @@
   {
     "text": "Notifying your team the office coffee machine broke",
     "slug": "office-coffee-machine-broke",
-    "keywords": ["coffee", "machine", "office", "kitchen", "broke", "espresso"],
+    "keywords": [
+      "coffee",
+      "machine",
+      "office",
+      "kitchen",
+      "broke",
+      "espresso"
+    ],
     "competitors": [
       {
         "name": "BrewAlert",
@@ -67,7 +100,14 @@
   {
     "text": "Detecting who microwaved fish in the break room",
     "slug": "microwaved-fish-break-room",
-    "keywords": ["fish", "microwave", "smell", "break room", "kitchen", "odor"],
+    "keywords": [
+      "fish",
+      "microwave",
+      "smell",
+      "break room",
+      "kitchen",
+      "odor"
+    ],
     "competitors": [
       {
         "name": "OdorOps",
@@ -80,7 +120,13 @@
   {
     "text": "Optimizing which Zoom background makes you look busiest",
     "slug": "zoom-background-busiest",
-    "keywords": ["zoom", "background", "video call", "meeting", "virtual"],
+    "keywords": [
+      "zoom",
+      "background",
+      "video call",
+      "meeting",
+      "virtual"
+    ],
     "competitors": [
       {
         "name": "BackgroundIQ",
@@ -93,11 +139,231 @@
   {
     "text": "Scheduling exactly when to leave a meeting to seem important",
     "slug": "leave-meeting-seem-important",
-    "keywords": ["meeting", "schedule", "leave early", "calendar", "busy"],
+    "keywords": [
+      "meeting",
+      "schedule",
+      "leave early",
+      "calendar",
+      "busy"
+    ],
     "competitors": [
       {
         "name": "ExitSync",
         "description": "Calendar intelligence for strategic disappearances.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Letting employees reserve a parking spot instead of circling the lot",
+    "slug": "office-parking-spot-booking",
+    "keywords": [
+      "parking",
+      "parking spot",
+      "car park",
+      "lot",
+      "commute"
+    ],
+    "competitors": [
+      {
+        "name": "Parkalot",
+        "description": "Turns 'is my spot still free' into a cloud-hosted question with an SLA.",
+        "url": "https://parkalot.io",
+        "isReal": true
+      },
+      {
+        "name": "Tidaro",
+        "description": "Books your desk, your parking spot, and your meeting room, so spreadsheets can finally retire.",
+        "url": "https://www.tidaro.com",
+        "isReal": true
+      },
+      {
+        "name": "Skedda",
+        "description": "Gives your parking lot a map, permissions, and quotas it never asked for.",
+        "url": "https://www.skedda.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Making sure nobody forgets a coworker's birthday or work anniversary",
+    "slug": "employee-birthday-anniversary-reminders",
+    "keywords": [
+      "birthday",
+      "anniversary",
+      "work anniversary",
+      "reminder",
+      "celebration",
+      "hr"
+    ],
+    "competitors": [
+      {
+        "name": "BirthdayBot",
+        "description": "Runs your team's entire emotional calendar from inside Slack.",
+        "url": "https://birthdaybot.io",
+        "isReal": true
+      },
+      {
+        "name": "Matter",
+        "description": "Turns 'happy birthday' into a KPI with an integrated rewards system.",
+        "url": "https://matterapp.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Tracking who keeps stealing your labeled lunch from the office fridge",
+    "slug": "labeled-lunch-theft-tracking",
+    "keywords": [
+      "lunch",
+      "fridge",
+      "food",
+      "stealing",
+      "stolen",
+      "stolen lunch",
+      "ate my lunch",
+      "kitchen",
+      "office"
+    ],
+    "competitors": [
+      {
+        "name": "LunchGuard",
+        "description": "Blockchain for your leftovers. Yes, really.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Decoding what a passive-aggressive break room sticky note actually means",
+    "slug": "passive-aggressive-sticky-note-decoder",
+    "keywords": [
+      "sticky note",
+      "passive aggressive",
+      "break room",
+      "kitchen",
+      "note"
+    ],
+    "competitors": [
+      {
+        "name": "NoteSense",
+        "description": "Sentiment analysis for 'per the sign above the sink, guys.'",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Predicting exactly when your manager's 'quick sync' will run 45 minutes over",
+    "slug": "quick-sync-runtime-prediction",
+    "keywords": [
+      "quick sync",
+      "meeting",
+      "manager",
+      "calendar",
+      "runs long"
+    ],
+    "competitors": [
+      {
+        "name": "SyncSense",
+        "description": "Machine-learned dread for your calendar, 15 minutes before it's justified.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Tracking whose turn it is to restock the office toilet paper",
+    "slug": "office-toilet-paper-rotation",
+    "keywords": [
+      "toilet paper",
+      "bathroom",
+      "restock",
+      "supplies",
+      "office"
+    ],
+    "competitors": [
+      {
+        "name": "TP-Ops",
+        "description": "Enterprise-grade rotation scheduling for a problem nobody wants to own.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Managing the office WiFi password that nobody can ever remember",
+    "slug": "office-wifi-password-management",
+    "keywords": [
+      "wifi",
+      "password",
+      "network",
+      "office",
+      "guest"
+    ],
+    "competitors": [
+      {
+        "name": "WiFiVault",
+        "description": "A whole platform so you can stop writing the password on a whiteboard.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Tracking who left their dirty mug in the office sink again",
+    "slug": "dirty-mug-sink-tracking",
+    "keywords": [
+      "mug",
+      "sink",
+      "dishes",
+      "dirty dishes",
+      "dirty mug",
+      "kitchen",
+      "office"
+    ],
+    "competitors": [
+      {
+        "name": "MugOps",
+        "description": "Computer vision for ceramic accountability.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Optimizing your out-of-office reply for maximum plausible deniability",
+    "slug": "out-of-office-reply-optimization",
+    "keywords": [
+      "out of office",
+      "auto reply",
+      "vacation",
+      "email"
+    ],
+    "competitors": [
+      {
+        "name": "OOO Intelligence",
+        "description": "A/B tests your away message so nobody expects a real answer until Thursday.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Detecting the exact moment a coworker is about to say 'circle back' in a meeting",
+    "slug": "circle-back-detection",
+    "keywords": [
+      "circle back",
+      "meeting",
+      "corporate speak",
+      "jargon",
+      "buzzword"
+    ],
+    "competitors": [
+      {
+        "name": "CircleBackAI",
+        "description": "Real-time buzzword detection. Vibrates your phone so you can mentally check out early.",
         "url": null,
         "isReal": false
       }

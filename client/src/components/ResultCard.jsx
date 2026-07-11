@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import SuggestForm from './SuggestForm';
+
 function verdictFor(count) {
   if (count === 0) return 'clean slate — go build it';
   if (count === 1) return 'someone already did this';
@@ -6,6 +9,7 @@ function verdictFor(count) {
 }
 
 export default function ResultCard({ problem }) {
+  const [showSuggest, setShowSuggest] = useState(false);
   const competitors = problem.competitors || [];
   const count = competitors.length;
 
@@ -60,10 +64,23 @@ export default function ResultCard({ problem }) {
 
       <div className="card-footer">
         <span className="verdict">verdict: {verdictFor(count)}</span>
-        <button className="share-btn" onClick={handleCopyLink}>
-          copy link
-        </button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="share-btn" onClick={() => setShowSuggest((v) => !v)}>
+            know one we missed?
+          </button>
+          <button className="share-btn" onClick={handleCopyLink}>
+            copy link
+          </button>
+        </div>
       </div>
+
+      {showSuggest && (
+        <SuggestForm
+          mode="competitor"
+          problemSlug={problem.slug}
+          onClose={() => setShowSuggest(false)}
+        />
+      )}
     </div>
   );
 }

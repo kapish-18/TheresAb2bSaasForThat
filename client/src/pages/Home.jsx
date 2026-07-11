@@ -3,6 +3,7 @@ import SearchBar from '../components/SearchBar';
 import SatireToggle from '../components/SatireToggle';
 import ResultCard from '../components/ResultCard';
 import EmptyState from '../components/EmptyState';
+import SuggestForm from '../components/SuggestForm';
 import { searchProblem, getRandomProblem } from '../api/client';
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   const [problem, setProblem] = useState(null);
   const [notFoundQuery, setNotFoundQuery] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showSuggestNew, setShowSuggestNew] = useState(false);
 
   async function handleSearch(q) {
     if (!q.trim()) {
@@ -20,6 +22,7 @@ export default function Home() {
     }
     setLoading(true);
     setNotFoundQuery(null);
+    setShowSuggestNew(false);
     try {
       const result = await searchProblem(q, includeSatire);
       if (result.found) {
@@ -39,6 +42,7 @@ export default function Home() {
     setLoading(true);
     setQuery('');
     setNotFoundQuery(null);
+    setShowSuggestNew(false);
     try {
       const result = await getRandomProblem(includeSatire);
       setProblem(result);
@@ -89,6 +93,18 @@ export default function Home() {
                 (that might mean you have a billion dollar idea, or nobody's that bored. flip a coin.)
               </span>
             </div>
+            <div style={{ textAlign: 'center', marginTop: '12px' }}>
+              <button className="share-btn" onClick={() => setShowSuggestNew((v) => !v)}>
+                know one that solves this?
+              </button>
+            </div>
+            {showSuggestNew && (
+              <SuggestForm
+                mode="problem"
+                problemTextSeed={notFoundQuery}
+                onClose={() => setShowSuggestNew(false)}
+              />
+            )}
           </div>
         )}
         {!loading && !problem && !notFoundQuery && (
