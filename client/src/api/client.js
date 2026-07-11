@@ -36,3 +36,35 @@ export async function submitSuggestion(payload) {
   }
   return data;
 }
+
+// --- Admin functions: all require the admin secret, sent as a header ---
+
+async function adminFetch(path, secret, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: {
+      'x-admin-secret': secret,
+      ...(options.headers || {})
+    }
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    const err = new Error(data.error || 'Request failed');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+export async function fetchSubmissions(secret, status = 'pending') {
+  const data = await adminFetch(`/submissions?status=${status}`, secret);
+  return data.submissions;
+}
+
+export async function approveSubmission(secret, id) {
+  return adminFetch(`/submissions/${id}/approve`, secret, { method: 'POST' });
+}
+
+export async function rejectSubmission(secret, id) {
+  return adminFetch(`/submissions/${id}/reject`, secret, { method: 'POST' });
+}

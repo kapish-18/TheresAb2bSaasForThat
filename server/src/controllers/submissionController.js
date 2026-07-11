@@ -44,7 +44,19 @@ async function listSubmissions(req, res, next) {
   try {
     const status = req.query.status || 'pending';
     const submissions = await Submission.find({ status }).sort({ createdAt: -1 }).lean();
-    res.json({ submissions });
+
+    // For new_competitor submissions, pull in the target problem's text so
+    // the admin view doesn't need a second round-trip per row.
+    const slugs = [...new Set(submissions.filter((s) => s.type === 'new_competitor').map((s) => s.problemSlug))];
+    const problems = slugs.length ? await Problem.find({ slug: { $in: slugs } }).select('slug text').lean() : [];
+    const slugToText = Object.fromEntries(problems.map((p) => [p.slug, p.text]));
+
+    const enriched = submissions.map((s) => ({
+      ...s,
+      resolvedProblemText: s.type === 'new_competitor' ? (slugToText[s.problemSlug] || '(problem no longer exists)') : s.problemText
+    }));
+
+    res.json({ submissions: enriched });
   } catch (err) {
     next(err);
   }

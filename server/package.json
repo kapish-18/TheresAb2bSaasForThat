@@ -13,8 +13,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "fuse.js": "^7.0.0",
-    "mongoose": "^8.4.1",
-    "theresab2bsaas": "file:.."
+    "mongoose": "^8.4.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
