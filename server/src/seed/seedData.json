@@ -1,0 +1,106 @@
+[
+  {
+    "text": "Managing which conference room someone's secretly napping in",
+    "slug": "conference-room-napping",
+    "keywords": ["conference room", "napping", "meeting room", "sleep", "office"],
+    "competitors": [
+      {
+        "name": "Robin",
+        "description": "Books your desk and quietly wonders why 'Room B' is always occupied 45 minutes past the meeting.",
+        "url": "https://robinpowered.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Making sure your Slack messages don't sound unhinged before 9am",
+    "slug": "slack-messages-unhinged",
+    "keywords": ["slack", "messages", "tone", "email", "communication", "unhinged"],
+    "competitors": [
+      {
+        "name": "Grammarly Business",
+        "description": "Corporate-grade proofreading, because 'per my last email' has layers.",
+        "url": "https://grammarly.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Tracking who keeps forgetting to update the shared spreadsheet",
+    "slug": "shared-spreadsheet-tracking",
+    "keywords": ["spreadsheet", "shared doc", "tracking", "excel", "update"],
+    "competitors": [
+      {
+        "name": "Smartsheet",
+        "description": "Spreadsheets, but with enough automation to almost forgive you for still using spreadsheets.",
+        "url": "https://smartsheet.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Knowing exactly which vendor invoice is overdue without asking finance",
+    "slug": "vendor-invoice-overdue",
+    "keywords": ["invoice", "vendor", "finance", "billing", "overdue", "payment"],
+    "competitors": [
+      {
+        "name": "Bill.com",
+        "description": "Turns 'did we pay that?' into a dashboard instead of a Slack thread.",
+        "url": "https://bill.com",
+        "isReal": true
+      }
+    ]
+  },
+  {
+    "text": "Notifying your team the office coffee machine broke",
+    "slug": "office-coffee-machine-broke",
+    "keywords": ["coffee", "machine", "office", "kitchen", "broke", "espresso"],
+    "competitors": [
+      {
+        "name": "BrewAlert",
+        "description": "Enterprise-grade grief counseling for your Nespresso pod supply.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Detecting who microwaved fish in the break room",
+    "slug": "microwaved-fish-break-room",
+    "keywords": ["fish", "microwave", "smell", "break room", "kitchen", "odor"],
+    "competitors": [
+      {
+        "name": "OdorOps",
+        "description": "AI-powered scent attribution. SOC 2 compliant. Nobody asked for this.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Optimizing which Zoom background makes you look busiest",
+    "slug": "zoom-background-busiest",
+    "keywords": ["zoom", "background", "video call", "meeting", "virtual"],
+    "competitors": [
+      {
+        "name": "BackgroundIQ",
+        "description": "Machine-learned professionalism, one blurred bookshelf at a time.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  },
+  {
+    "text": "Scheduling exactly when to leave a meeting to seem important",
+    "slug": "leave-meeting-seem-important",
+    "keywords": ["meeting", "schedule", "leave early", "calendar", "busy"],
+    "competitors": [
+      {
+        "name": "ExitSync",
+        "description": "Calendar intelligence for strategic disappearances.",
+        "url": null,
+        "isReal": false
+      }
+    ]
+  }
+]
