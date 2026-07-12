@@ -1,71 +1,120 @@
-# There's a B2B SaaS for that.
+# There's a B2B SaaS for that. 🎲
 
-A parody/utility search tool: type any problem (real or absurd) and find out
-if there's already a B2B SaaS company solving it.
+**Type any problem. Find out if a venture-backed startup already solves it.**
 
-## Stack
+Spoiler: it probably does.
 
-- **Frontend**: React + Vite, React Router (for `/r/:slug` shareable results)
-- **Backend**: Node + Express
-- **DB**: MongoDB (Atlas free tier) + Mongoose
-- **Search**: Fuse.js — fuzzy matching so typos/rephrasing still find the right entry
+There are more B2B SaaS companies right now than there are problems worth solving — this is a search engine for proving it. Roll the dice for a random workplace absurdity, or search your own, and see how "saturated" the space already is. Some results are real, funded companies. Some are jokes. You'll know which is which.
 
-## Folder structure
+🔗 **[Live demo](#)** &nbsp;·&nbsp; 🎲 **[Try a random roll](#)**
+
+---
+
+## How it works
+
+- **🎲 Roll the dice** — get a random real-or-absurd workplace problem
+- **🔍 Search your own** — fuzzy search handles typos and rephrasing, not just exact matches
+- **Every result** shows how many companies solve it, a `verified` vs `satirical` badge per competitor, and a saturation score
+- **Share any result** — every problem has a shareable link with a proper social preview card (real Open Graph image, generated on the fly)
+- **See what's trending** — a live leaderboard of the most-rolled, most-searched problems
+- **Missing something?** — suggest a competitor or a brand new problem right from the result card; submissions go into a review queue before going live
+
+## Screenshot
+
+*(add a screenshot or GIF of the dice roll + result card here)*
+
+---
+
+## Tech stack
+
+| Layer | Tech |
+|---|---|
+| Frontend | React + Vite, React Router |
+| Backend | Node + Express |
+| Database | MongoDB (Atlas) + Mongoose |
+| Fuzzy search | [Fuse.js](https://www.fusejs.io/) |
+| OG image generation | [Satori](https://github.com/vercel/satori) + [resvg](https://github.com/thx/resvg-js) — real PNG cards rendered server-side, no headless browser |
+| Rate limiting | express-rate-limit |
+
+No framework lock-in, no SSR complexity — a plain SPA plus a small Express API, with a bot-aware share endpoint to solve the "SPAs can't have per-page social previews" problem (see [Architecture notes](#architecture-notes) below).
+
+---
+
+## Project structure
 
 ```
 theresab2bsaas/
-├── client/     # React frontend
-├── server/     # Express backend + MongoDB models + seed data
+├── client/                 # React frontend (Vite)
+│   └── src/
+│       ├── components/     # SearchBar, DiceButton, ResultCard, SuggestForm, etc.
+│       ├── pages/          # Home, Trending, Admin, SharedResult
+│       └── api/            # backend API client
+├── server/                 # Express backend
+│   └── src/
+│       ├── models/         # Problem, Submission (Mongoose schemas)
+│       ├── routes/         # problems, submissions, share/OG image
+│       ├── controllers/    # request handlers
+│       ├── services/       # search (Fuse.js) + OG image rendering (Satori)
+│       └── seed/           # seedData.json — the actual problem/competitor content
 ```
 
-## Setup
+---
 
-### 1. Prerequisites
+## Getting started
+
+### Prerequisites
 - Node.js 18+
-- A MongoDB Atlas cluster (free M0 tier is enough) — or local MongoDB if you prefer
+- A MongoDB connection string ([Atlas free tier](https://www.mongodb.com/cloud/atlas/register) works fine, or run Mongo locally)
 
-### 2. Install everything
+### Install
 ```bash
+git clone https://github.com/kapish-18/TheresAb2bSaasForThat.git
+cd TheresAb2bSaasForThat
 npm run install:all
 ```
 
-### 3. Configure the backend
+### Configure
 ```bash
 cd server
 cp .env.example .env
-# edit .env and paste in your MongoDB connection string
 ```
+Fill in `server/.env`:
 
-### 4. Seed the database
+| Variable | What it's for |
+|---|---|
+| `MONGO_URI` | Your MongoDB connection string |
+| `PORT` | Backend port (defaults to 5000) |
+| `ADMIN_SECRET` | A long random string — gates the `/admin` review panel |
+| `FRONTEND_URL` | Where the React app is served (used for share-link redirects) |
+| `BACKEND_URL` | Where this API is served (used to build OG image URLs) |
+
+### Seed the database
 ```bash
 npm run seed
 ```
-This loads `server/src/seed/seedData.json` into MongoDB. **This is the file
-you'll edit constantly as you add more problems/competitors** — no need to
-touch any logic code to add content.
+Loads `server/src/seed/seedData.json` into MongoDB. This file is the actual content of the site — edit it directly to add problems and competitors, no code changes needed.
 
-### 5. Run everything
-From the root folder:
+### Run it
 ```bash
 npm run dev
 ```
-This runs the backend on `http://localhost:5000` and the frontend on
-`http://localhost:5173` at the same time.
+Backend on `:5000`, frontend on `:5173`, both at once.
 
-## Adding new entries
+---
 
-Open `server/src/seed/seedData.json` and add a new object following the
-existing shape:
+## Adding content
+
+Every entry in `server/src/seed/seedData.json` looks like this:
 
 ```json
 {
   "text": "The problem, phrased naturally",
   "slug": "url-friendly-slug",
-  "keywords": ["a few", "alternate phrasings", "someone might search"],
+  "keywords": ["alternate phrasings", "someone might search"],
   "competitors": [
     {
       "name": "Company Name",
-      "description": "Punchy one-liner in your voice, not their official tagline.",
+      "description": "A punchy one-liner in your own voice — not their marketing copy.",
       "url": "https://company.com",
       "isReal": true
     }
@@ -73,37 +122,73 @@ existing shape:
 }
 ```
 
-For satirical/gag entries, set `"isReal": false` and `"url": null` — the
-frontend will show a "satirical" badge and swap the link for a Google search
-instead of a dead link.
+Satirical/joke entries: set `"isReal": false` and `"url": null`. The frontend shows a `satirical` badge and swaps the link for a search instead of a dead URL.
 
-After editing, re-run `npm run seed` to reload the database. (Note: this
-wipes and reinserts everything — fine for now while you're solo-curating,
-but worth revisiting once real users can submit entries.)
+Re-run `npm run seed` after editing (this wipes and reloads all problems — fine solo, and submissions go through the review queue instead once real users are involved).
 
-## API endpoints
+---
+
+## The admin panel
+
+Visit `/admin` in the running app, paste in your `ADMIN_SECRET`, and you'll get a queue of community-suggested competitors/problems to approve or reject. Approved submissions merge straight into the live database.
+
+This is secret-gated, not a real login system — fine for a solo maintainer, not meant to scale past that without upgrading to real auth.
+
+---
+
+## API reference
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/problems/search?q=coffee&satire=true` | Fuzzy search |
-| GET | `/api/problems/random?satire=true` | Random problem |
-| GET | `/api/problems/slug/:slug` | Fetch by slug (for shareable links) |
+| `GET` | `/api/problems/search?q=coffee&satire=true` | Fuzzy search |
+| `GET` | `/api/problems/random?satire=true` | Random problem |
+| `GET` | `/api/problems/trending?limit=10` | Most-viewed problems |
+| `GET` | `/api/problems/slug/:slug` | Fetch one problem by slug |
+| `POST` | `/api/submissions` | Suggest a competitor or new problem (rate-limited) |
+| `GET` | `/api/submissions?status=pending` | 🔒 Admin: list submissions |
+| `POST` | `/api/submissions/:id/approve` | 🔒 Admin: approve |
+| `POST` | `/api/submissions/:id/reject` | 🔒 Admin: reject |
+| `GET` | `/api/og/:slug.png` | Generated OG image for a problem |
+| `GET` | `/share/:slug` | Bot-readable share page → redirects humans to the app |
 
-## Deployment (when ready)
+🔒 = requires an `x-admin-secret` header matching `ADMIN_SECRET`.
 
-- Frontend → Vercel
-- Backend → Render or Railway
-- DB → MongoDB Atlas (already using this in dev)
+---
 
-Set `VITE_API_BASE` as an environment variable on Vercel pointing to your
-deployed backend URL.
+## Architecture notes
 
-## Not built yet (intentionally deferred)
+**Why is there a `/share/:slug` route separate from the frontend's `/r/:slug`?**
 
-- Crowdsourced submissions / "suggest a competitor" form
-- OG image generation for shared links
-- Ads / sponsored placement
-- Admin dashboard
+Social crawlers (Twitter, LinkedIn, Slack, Discord) don't execute JavaScript — they only read `<meta>` tags from the raw HTML response. A client-side React SPA can't serve per-problem preview cards no matter what's in the component, because the crawler never runs the code that would render them.
 
-These come after the core product proves it's actually funny and people use
-it — see the roadmap discussion for reasoning.
+The fix: `/share/:slug` is a small Express route that checks the requester's user-agent. Bots get plain HTML with correct `og:image`/`og:title` tags and nothing else. Humans get an instant redirect into the real React app. The "copy link" button in the UI copies this URL, not the raw frontend one.
+
+---
+
+## Deployment
+
+- **Frontend** → [Vercel](https://vercel.com) (set `VITE_API_BASE` env var to your deployed backend's `/api` URL)
+- **Backend** → [Render](https://render.com) or [Railway](https://railway.app) (set all the `server/.env` variables in the platform's dashboard — remember to update `FRONTEND_URL` and `BACKEND_URL` to the real deployed URLs, not localhost)
+- **Database** → [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+
+---
+
+## Roadmap / not built yet
+
+- Sponsored placement slots (deliberately deferred until there's real traffic to sell against)
+- Real auth for the admin panel, if more than one person starts moderating
+- Analytics beyond the trending leaderboard
+
+---
+
+## Contributing
+
+Found a niche that's suspiciously saturated? Open a PR against `seedData.json`, or use the in-app "suggest a competitor" button once it's deployed — either works.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
+
+---
+
+Built by [Kapish](https://github.com/kapish-18).
