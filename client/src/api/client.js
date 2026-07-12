@@ -1,5 +1,14 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000/api';
 
+// Share links point at the backend's /share/:slug route (not the frontend
+// directly) because that's the URL that needs to serve real OG meta tags
+// to crawlers. Derived by stripping the trailing /api from API_BASE.
+const BACKEND_ORIGIN = API_BASE.replace(/\/api\/?$/, '');
+
+export function getShareUrl(slug) {
+  return `${BACKEND_ORIGIN}/share/${slug}`;
+}
+
 export async function searchProblem(query, includeSatire) {
   const url = `${API_BASE}/problems/search?q=${encodeURIComponent(query)}&satire=${includeSatire}`;
   const res = await fetch(url);

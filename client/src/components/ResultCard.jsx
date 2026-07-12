@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SuggestForm from './SuggestForm';
+import { getShareUrl } from '../api/client';
 
 function verdictFor(count) {
   if (count === 0) return 'clean slate — go build it';
@@ -10,12 +11,16 @@ function verdictFor(count) {
 
 export default function ResultCard({ problem }) {
   const [showSuggest, setShowSuggest] = useState(false);
+  const [copied, setCopied] = useState(false);
   const competitors = problem.competitors || [];
   const count = competitors.length;
 
   function handleCopyLink() {
-    const url = `theresab2bsaasforthat.com/r/${problem.slug}`;
-    navigator.clipboard.writeText(url).catch(() => {});
+    const url = getShareUrl(problem.slug);
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }).catch(() => {});
   }
 
   return (
@@ -69,7 +74,7 @@ export default function ResultCard({ problem }) {
             know one we missed?
           </button>
           <button className="share-btn" onClick={handleCopyLink}>
-            copy link
+            {copied ? 'copied ✓' : 'copy link'}
           </button>
         </div>
       </div>

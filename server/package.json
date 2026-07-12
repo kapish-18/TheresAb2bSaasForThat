@@ -8,12 +8,17 @@
     "seed": "node src/seed/seed.js"
   },
   "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "@resvg/resvg-js": "^2.6.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "fuse.js": "^7.0.0",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.4.1",
+    "satori": "^0.26.0",
+    "theresab2bsaas": "file:.."
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
