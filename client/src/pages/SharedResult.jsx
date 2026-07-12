@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ResultCard from '../components/ResultCard';
 import EmptyState from '../components/EmptyState';
+import Credits from '../components/Credits';
 import { getProblemBySlug } from '../api/client';
 
 export default function SharedResult() {
@@ -29,6 +30,8 @@ export default function SharedResult() {
         {!loading && problem && <ResultCard problem={problem} />}
         {!loading && !problem && <EmptyState message="this problem doesn't exist. someone probably made this URL up." />}
       </div>
+
+      <Credits />
     </div>
   );
 }

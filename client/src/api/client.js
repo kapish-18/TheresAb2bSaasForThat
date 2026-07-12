@@ -33,6 +33,13 @@ export async function getProblemBySlug(slug) {
   return data.problem;
 }
 
+export async function fetchTrending(limit = 10) {
+  const res = await fetch(`${API_BASE}/problems/trending?limit=${limit}`);
+  if (!res.ok) throw new Error('Failed to load trending problems');
+  const data = await res.json();
+  return data.problems;
+}
+
 export async function submitSuggestion(payload) {
   const res = await fetch(`${API_BASE}/submissions`, {
     method: 'POST',

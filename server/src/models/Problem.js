@@ -12,7 +12,10 @@ const problemSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true, index: true },
   keywords: { type: [String], default: [] },
   competitors: { type: [competitorSchema], default: [] },
-  lastUpdated: { type: Date, default: Date.now }
+  lastUpdated: { type: Date, default: Date.now },
+  // Incremented every time this problem is served via dice roll or search
+  // match. Powers the trending leaderboard.
+  viewCount: { type: Number, default: 0, index: true }
 }, { timestamps: true });
 
 problemSchema.index({ text: 'text', keywords: 'text' });

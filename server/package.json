@@ -18,7 +18,8 @@
     "fuse.js": "^7.0.0",
     "mongoose": "^8.4.1",
     "satori": "^0.26.0",
-    "theresab2bsaas": "file:.."
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.26.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

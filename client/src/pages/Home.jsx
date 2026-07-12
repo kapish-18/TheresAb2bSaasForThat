@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import SatireToggle from '../components/SatireToggle';
 import ResultCard from '../components/ResultCard';
 import EmptyState from '../components/EmptyState';
 import SuggestForm from '../components/SuggestForm';
+import Credits from '../components/Credits';
 import { searchProblem, getRandomProblem } from '../api/client';
 
 export default function Home() {
@@ -64,7 +66,12 @@ export default function Home() {
         <div className="logo">
           There's a <span>B2B SaaS</span> for that.
         </div>
-        <SatireToggle checked={includeSatire} onChange={handleToggleChange} />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <Link to="/trending" className="share-btn" style={{ textDecoration: 'none' }}>
+            🔥 trending
+          </Link>
+          <SatireToggle checked={includeSatire} onChange={handleToggleChange} />
+        </div>
       </header>
 
       <p className="tagline">
@@ -117,6 +124,8 @@ export default function Home() {
         for comedic effect and not official taglines. don't take offense, don't raise a seed round
         based on this website, and don't sue us. we're a comedy bit that occasionally tells the truth.
       </div>
+
+      <Credits />
     </div>
   );
 }
